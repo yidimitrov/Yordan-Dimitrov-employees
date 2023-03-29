@@ -44,6 +44,8 @@ namespace DataProcessing.Process
 
         private LongestDaysWorkedEmployeesPair ProcessCsvData(IEnumerable<EmployeeProjectParicipation> employees)
         {
+
+            // Grouping employees by projects
             var query = employees.GroupBy(
                 emp => emp.ProjectId,
                 (project, employee) => new
@@ -58,7 +60,7 @@ namespace DataProcessing.Process
             Func<DateTime, DateTime, DateTime> Min = (d1, d2) => DateTime.Compare(d1, d2) > 0 ? d2 : d1;
             
             List<EmployeesPair> employeesCommonProjects = new();
-
+            // Compare project collaboration for each pair of employees. Calculate days they worked together
             foreach (IEnumerable<EmployeeProjectParicipation>? empProject in query.Select(g => g.Employee))
             {
                 for (int i = 0; i < empProject.Count() - 1; i++)
@@ -82,6 +84,7 @@ namespace DataProcessing.Process
                 }
             }
 
+            // Grouping by pair employees
             var pairs = from gr in employeesCommonProjects
                           group gr by new { gr.EmployeeId1, gr.EmployeeId2 } into prj
                           select
@@ -94,7 +97,17 @@ namespace DataProcessing.Process
                               Projects = prj.Select(e => new { Project = e.ProjectId, DaysWorked = e.DaysWorked })
                           };
 
-            var longestPair = pairs.FirstOrDefault();
+            if (!pairs.Any())
+            {
+                return new LongestDaysWorkedEmployeesPair
+                {
+                    EmployeeId1 = -1,
+                    EmployeeId2 = -1,
+                    ProjectToDaysWorked = new Dictionary<int, int> { }
+                };
+            }
+
+            var longestPair = pairs.First();
 
             return new LongestDaysWorkedEmployeesPair
             {

@@ -43,7 +43,11 @@ namespace DataPresentationUI
 
         private void PopulateDataGridView(IEnumerable<LongestDaysWorkedEmployeesPairView> employeesPair)
         {
-            PropertyInfo[] properties = employeesPair.ElementAt(0).GetType().GetProperties().ToArray();
+            if (!employeesPair.Any())
+            {
+                return;
+            }
+            PropertyInfo[] properties = employeesPair.First().GetType().GetProperties().ToArray();
             foreach(var prop in properties)
             {
                 var attrib = GetAttribute<DisplayNameAttribute>(prop, true);

@@ -1,0 +1,17 @@
+
+DataProcessing/BusinessModels/bin
+DataProcessing/DataModels/bin
+DataProcessing/DataPresentationUI/bin
+DataProcessing/DataProcessing/bin
+DataProcessing/DataRepository/bin
+DataProcessing/DataModels/obj
+DataProcessing/BusinessModels/obj
+DataProcessing/DataPresentationUI/obj
+DataProcessing/DataProcessing/obj
+DataProcessing/DataRepository/obj
+DataProcessing/.vs
+*.user
+*.v2
+DataProcessing/.vs/DataProcessing/v17/.suo
+*.vsidx
+DataProcessing/.vs/DataProcessing/DesignTimeBuild/.dtbcache.v2
